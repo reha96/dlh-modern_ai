@@ -2,7 +2,6 @@
 """
 Write a function def clean_total_charges(df, method='drop')
 """
-import pandas as pd
 
 
 def clean_total_charges(df, method='drop'):
