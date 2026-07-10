@@ -11,7 +11,7 @@ def clean_total_charges(df, method='drop'):
         df (_type_): _description_
         method (str, optional): _description_. Defaults to 'drop'.
     """
-    out = df.copy()
+    out = df.copy()  # keep org df intact
     if method == 'drop':
         out = df.dropna(subset=['TotalCharges'])  # only for said col
     elif method == 'median':
