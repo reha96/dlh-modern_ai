@@ -14,12 +14,10 @@ def clean_total_charges(df, method='drop'):
     out = df.copy()
     if method == 'drop':
         out = df.dropna(subset=['TotalCharges'])  # only for said col
-        return out
     elif method == 'median':
         out['TotalCharges'] = df['TotalCharges'].fillna(
             df['TotalCharges'].median())
-        return out
     elif method == 'impute':
         out['TotalCharges'] = df['TotalCharges'].fillna(
             df['MonthlyCharges'] * df['tenure'])
-        return out
+    return out
