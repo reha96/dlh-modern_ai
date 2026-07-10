@@ -11,6 +11,8 @@ def clean_total_charges(df, method='drop'):
         df (_type_): _description_
         method (str, optional): _description_. Defaults to 'drop'.
     """
+    convert_columns = __import__('2-convert_columns').convert_columns
+    convert_columns(df)
     if method == 'drop':
         df = df.dropna(subset=['TotalCharges'])  # only for said col
     elif method == 'median':
