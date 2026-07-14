@@ -23,9 +23,9 @@ def plot_categorical_distributions(df, columns_to_plot=None):
     else:
         df = df[columns_to_plot].select_dtypes(
             include="object")  # keep object dtype
-    length = df.columns.tolist()  # convert to list object
-    n_cols, n_rows = 3, (length+2)//3   # dynamic size for single graph
+
     num_plots = df.shape[1]
+    n_cols, n_rows = 3, (num_plots+2)//3   # dynamic for any graph
 
     fig, axes = plt.subplots(n_rows, n_cols, figsize=(15, 5*n_rows))
 
