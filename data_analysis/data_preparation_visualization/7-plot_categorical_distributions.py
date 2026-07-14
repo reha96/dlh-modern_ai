@@ -39,9 +39,9 @@ def plot_categorical_distributions(df, columns_to_plot=None):
         axes[i].tick_params(axis='x', rotation=45)
         axes[i].set_xlabel('')  # remove x-axis
 
-    # Hide any unused subplots (if num_plots < rows*cols space)
-    for j in range(num_plots, len(axes)):
-        fig.delaxes(axes[j])
+    # Hide unused subplots (if num_plots < rows*cols space)
+    for ax in axes[num_plots:]:
+        ax.axis('off')
 
     plt.tight_layout()
     plt.savefig("Task_7.png")
