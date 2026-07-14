@@ -22,26 +22,27 @@ def plot_categorical_distributions(df, columns_to_plot=None):
         df = df.select_dtypes(include="object")  # keep object dtype
         columns_to_plot = df.columns.to_list()
     else:
-        pass
-        
-    num_plots = df.shape[1]
+        if isinstance(columns_to_plot, str):
+            columns_to_plot = [columns_to_plot]  # convert to list
+
+    num_plots = len(columns_to_plot)
     n_cols, n_rows = 3, (num_plots+2)//3   # dynamic for any graph
 
     fig, axes = plt.subplots(n_rows, n_cols, figsize=(15, 5*n_rows))
 
-    # Flatten axes to a 1D array, even if it's already 1D or 2D
-    axes = axes.flatten()
+    # Flatten axes to a 1D array, else to list
+    axes = axes.flatten() if hasattr(axes, 'flatten') else [axes]
 
-    for i, col in enumerate(df.columns):
-        # Plot on the i-th subplot
-        df[col].value_counts().plot(kind='bar', ax=axes[i])
-        axes[i].set_title(col)
-        axes[i].tick_params(axis='x', rotation=45)
-        axes[i].set_xlabel('')  # remove x-axis
+    # 2. Plot using ax.bar (not pandas .plot)
+    for ax, col in zip(axes, columns_to_plot):
+        counts = df[col].value_counts()
+        ax.bar(counts.index, counts.values)
+        ax.set_title(col)
+        ax.tick_params(axis='x', labelrotation=45)
 
-    # Hide any unused subplots (if num_plots < rows*cols space)
-    for j in range(num_plots, len(axes)):
-        fig.delaxes(axes[j])
+    # 3. Hide unused subplots do not use .delaxes(axes[j])
+    for ax in axes[num_plots:]:
+        ax.axis('off')
 
     plt.tight_layout()
     plt.savefig("Task_7.png")
