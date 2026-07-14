@@ -18,11 +18,11 @@ def plot_churn_distribution(df):
 
     """
     plt.figure(figsize=(12, 8))
-    # Get counts in a specic order (No, then Yes)
+    # get counts in a specic order (No, then Yes) and a Series object!
     counts = df['Churn'].value_counts().reindex(['No', 'Yes'])
 
     plt.bar(counts.index, counts.values, color=[
-            'skyblue', 'salmon']) # no label needed
+            'skyblue', 'salmon'])  # no label needed
 
     plt.ylabel("Count")
     plt.title("Churn Distribution")
