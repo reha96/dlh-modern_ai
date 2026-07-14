@@ -18,12 +18,12 @@ def plot_categorical_distributions(df, columns_to_plot=None):
     """
 
     if columns_to_plot is None:
-        df = df.drop("Churn", axis=1)  # remove target
+        df = df.drop("Churn", axis=1)  # remove target, assume
         df = df.select_dtypes(include="object")  # keep object dtype
+        columns_to_plot = df.columns.to_list()
     else:
-        df = df[columns_to_plot].select_dtypes(
-            include="object")  # keep object dtype
-
+        pass
+        
     num_plots = df.shape[1]
     n_cols, n_rows = 3, (num_plots+2)//3   # dynamic for any graph
 
@@ -39,9 +39,9 @@ def plot_categorical_distributions(df, columns_to_plot=None):
         axes[i].tick_params(axis='x', rotation=45)
         axes[i].set_xlabel('')  # remove x-axis
 
-    # Hide unused subplots (if num_plots < rows*cols space)
-    for ax in axes[num_plots:]:
-        ax.axis('off')
+    # Hide any unused subplots (if num_plots < rows*cols space)
+    for j in range(num_plots, len(axes)):
+        fig.delaxes(axes[j])
 
     plt.tight_layout()
     plt.savefig("Task_7.png")
