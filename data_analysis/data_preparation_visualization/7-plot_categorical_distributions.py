@@ -21,8 +21,10 @@ def plot_categorical_distributions(df, columns_to_plot=None):
         df = df.drop("Churn", axis=1)  # remove target
         df = df.select_dtypes(include="object")  # keep object dtype
     else:
-        df = df[columns_to_plot].select_dtypes(include="object")  # keep object dtype
-    n_cols, n_rows = 3, 6  # get dims from example plot
+        df = df[columns_to_plot].select_dtypes(
+            include="object")  # keep object dtype
+    length = df.columns.tolist()  # convert to list object
+    n_cols, n_rows = 3, (length+2)//3   # dynamic size for single graph
     num_plots = df.shape[1]
 
     fig, axes = plt.subplots(n_rows, n_cols, figsize=(15, 5*n_rows))
