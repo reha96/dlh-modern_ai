@@ -20,4 +20,4 @@ Returns: None
     plt.figure(figsize=(6, 5))
     df = df.select_dtypes(include='number')
     df = df.corr()
-    sns.heatmap(df, vmin=-1, vmax=1, cmap='coolwarm')
+    sns.heatmap(df, vmin=-1, annot=True, vmax=1, cmap='coolwarm')
