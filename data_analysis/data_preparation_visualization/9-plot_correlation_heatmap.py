@@ -21,3 +21,4 @@ Returns: None
     df = df.select_dtypes(include='number')
     df = df.corr()
     sns.heatmap(df, vmin=-1, annot=True, vmax=1, cmap='coolwarm')
+    plt.title("Correlation Matrix")
