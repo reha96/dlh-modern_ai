@@ -21,11 +21,11 @@ Returns: None
     """
 
     plt.figure(figsize=(12, 8))
+
     # Compute proportion of 'Yes' per category
     churn_rate = df.groupby(col)['Churn'].apply(lambda x: (x == 'Yes').mean())
 
     # Create the bar plot
-
     plt.bar(churn_rate.index, churn_rate.values)
 
     # Titles and labels
@@ -33,6 +33,5 @@ Returns: None
     plt.ylabel("Churn Rate")
     plt.xticks(rotation=45)
 
-    # Display
-    plt.tight_layout()
     plt.show()
+    return None
