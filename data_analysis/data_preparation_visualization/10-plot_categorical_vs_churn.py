@@ -26,12 +26,12 @@ Returns: None
 
     # Create the bar plot
 
-    churn_rate.plot(kind='bar')
+    plt.bar(churn_rate.index, churn_rate.values)
 
     # Titles and labels
     plt.title(f"Churn Rate by {col}")
     plt.ylabel("Churn Rate")
-    plt.tick_params(rotation=45)
+    plt.xticks(rotation=45)
 
     # Display
     plt.tight_layout()
