@@ -25,8 +25,8 @@ Returns a dictionary: {feature_name: p_value}
 
     for col in df:
         if col != "Churn":
-            table = pd.crosstab(df[col], df['Churn'])
-            _, p, _, _ = stats.chi2_contingency(table)
-            out[col] = p
+            table = pd.crosstab(df[col], df['Churn'])  # tabulate x y
+            _, p, _, _ = stats.chi2_contingency(table)  # only p needed
+            out[col] = p  # fill dict
 
     return out
