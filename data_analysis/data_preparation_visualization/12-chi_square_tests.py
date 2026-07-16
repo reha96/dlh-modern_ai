@@ -19,13 +19,14 @@ Returns a dictionary: {feature_name: p_value}
     Args:
         df (_type_): _description_
     """
-    
+
     df = df.select_dtypes(include="object")
     out = {}
 
     for col in df:
-        table = pd.crosstab(df[col], df['Churn'])
-        _, p, _, _ = stats.chi2_contingency(table)
-        out[col] = p
+        if col != "Churn":
+            table = pd.crosstab(df[col], df['Churn'])
+            _, p, _, _ = stats.chi2_contingency(table)
+            out[col] = p
 
     return out
