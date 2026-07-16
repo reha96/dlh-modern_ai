@@ -20,7 +20,7 @@ Returns a dictionary: {feature_name: p_value}
         df (_type_): _description_
     """
     
-    df = df.select_dtypes(include="numeric")
+    df = df.select_dtypes(include="object")
     out = {}
 
     for col in df:
