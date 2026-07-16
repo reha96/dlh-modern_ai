@@ -20,14 +20,10 @@ Returns a dictionary: {feature_name: p_value}
         df (_type_): _description_
     """
     out = {}
-    
+
     for col in df:
         table = pd.crosstab(df[col], df['Churn'])
         _, p, _, _ = stats.chi2_contingency(table)
         out[col] = p
-        
+
     return out
-
-
-df = pd.read_csv('data_analysis/data_preparation_visualization/precleaned-Telco-Customer-Churn.csv')
-print(chi_square_tests(df))
