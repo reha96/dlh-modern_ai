@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Write a function that performs Welch's t-tests for continuous numeric features using scipy
+"""Write a function that performs Welch's t-tests
+for continuous numeric features using scipy
 """
 
 from scipy import stats
@@ -27,6 +28,6 @@ Returns a dictionary: {feature_name: p_value}
     for col in num_cols:
         yes = df[df['Churn'] == 'Yes'][col]  # keep yes rows
         no = df[df['Churn'] == 'No'][col]  # keep no rows
-        _, p = stats.ttest_ind(yes, no)  # check mean
+        _, p = stats.ttest_ind(yes, no,  equal_var=False)  # Welch _var
         out[col] = p  # store in dict
     return out
