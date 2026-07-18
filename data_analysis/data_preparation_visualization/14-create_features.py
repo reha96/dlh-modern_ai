@@ -43,4 +43,6 @@ Returns the modified DataFrame
     labels = ['0-12', '13-24', '25-48', '49-60', '60+']
     df['TenureGroup'] = pd.cut(df['tenure'], bins=bins, labels=labels,
                                right=True, include_lowest=False)
-    return df['NumServices', 'TenureGroup']
+    # drop source columns used to create the new features
+    df.drop(columns=services + ['InternetService', 'tenure'], inplace=True)
+    return df
