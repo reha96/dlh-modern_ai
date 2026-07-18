@@ -31,7 +31,8 @@ Returns:
     # multi column input, same transformation as before
     bin_cols = ['Partner', 'Dependents', 'PaperlessBilling',
                 'SeniorCitizen']
-    oe_bin = preprocessing.OrdinalEncoder(categories=[['No', 'Yes']])
+    oe_bin = preprocessing.OrdinalEncoder(
+        categories=[['No', 'Yes']] * len(bin_cols))
     df[bin_cols] = oe_bin.fit_transform(df[bin_cols]).astype(int)
 
     # one hot -> one col with many to many dummy cols
