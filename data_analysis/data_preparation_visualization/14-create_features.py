@@ -32,7 +32,7 @@ Returns the modified DataFrame
     services = ['OnlineSecurity', 'OnlineBackup', 'DeviceProtection',
                 'TechSupport', 'StreamingTV', 'StreamingMovies']
 
-    df = pd.DataFrame(df[services])  # to access function helpers, DF
+    df = pd.DataFrame(df)  # to access function helpers, DF
     # Count 'Yes' across service columns
     df['NumServices'] = (df[services] == 'Yes').sum(axis=1)
     # Add 1 if InternetService is DSL or Fiber optic
@@ -43,4 +43,4 @@ Returns the modified DataFrame
     labels = ['0-12', '13-24', '25-48', '49-60', '60+']
     df['TenureGroup'] = pd.cut(df['tenure'], bins=bins, labels=labels,
                                right=True, include_lowest=False)
-    return df
+    return df['NumServices', 'TenureGroup']
