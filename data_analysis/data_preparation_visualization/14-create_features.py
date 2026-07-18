@@ -30,8 +30,8 @@ Returns the modified DataFrame
         df (_type_): _description_
     """
     services = ['OnlineSecurity', 'OnlineBackup', 'DeviceProtection',
-                'TechSupport', 'StreamingTV', \
-                    'StreamingMovies', 'MultipleLines']
+                'TechSupport', 'StreamingTV',
+                'StreamingMovies', 'MultipleLines']
 
     df = pd.DataFrame(df)  # to access function helpers, DF
     # Count 'Yes' across service columns
