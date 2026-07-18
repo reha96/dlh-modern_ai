@@ -44,5 +44,5 @@ Returns the modified DataFrame
     df['TenureGroup'] = pd.cut(df['tenure'], bins=bins, labels=labels,
                                right=True, include_lowest=False)
     # drop source columns used to create the new features
-    df.drop(columns=services + ['InternetService', 'tenure'], inplace=True)
+    df = df.drop(columns=services + ['InternetService', 'tenure'])
     return df
