@@ -29,17 +29,18 @@ Returns the modified DataFrame
     Args:
         df (_type_): _description_
     """
-    df = df[df["InternetService"]== 'Yes']
-    df.describe()
-    
-    
+    services = ['OnlineSecurity', 'OnlineBackup', 'DeviceProtection',
+                'TechSupport', 'StreamingTV', 'StreamingMovies']
 
-plot_numeric_vs_churn = __import__(
-    '11-plot_numeric_vs_churn').plot_numeric_vs_churn
-
-
-df = pd.read_csv(
-    '/home/rehat/Documents/GitHub/dlh-modern_ai/data_analysis/data_preparation_visualization/precleaned-Telco-Customer-Churn.csv')
-df.drop(columns=['gender', 'PhoneService'], inplace=True)
-df = create_features(df)
-plot_numeric_vs_churn(df, 'NumServices')
+    df = pd.DataFrame(df)  # to access function helpers
+    # Count 'Yes' across service columns
+    df['NumServices'] = (df[services] == 'Yes').sum(axis=1)
+    # Add 1 if InternetService is DSL or Fiber optic
+    df['NumServices'] += df['InternetService'].isin(
+        ['DSL', 'Fiber optic']).astype(int)
+    # pd.cut is the standard way to create bins
+    bins = [0, 12, 24, 48, 60,  df['tenure'].max() + 1]
+    labels = ['0-12', '13-24', '25-48', '49-60', '60+']
+    df['TenureGroup'] = pd.cut(df['tenure'], bins=bins, labels=labels,
+                               right=True, include_lowest=False)
+    return df
