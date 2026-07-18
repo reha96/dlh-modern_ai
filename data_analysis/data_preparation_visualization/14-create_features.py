@@ -32,7 +32,7 @@ Returns the modified DataFrame
     services = ['OnlineSecurity', 'OnlineBackup', 'DeviceProtection',
                 'TechSupport', 'StreamingTV', 'StreamingMovies']
 
-    df = pd.DataFrame(df)  # to access function helpers
+    df = pd.DataFrame(df[services])  # to access function helpers, DF
     # Count 'Yes' across service columns
     df['NumServices'] = (df[services] == 'Yes').sum(axis=1)
     # Add 1 if InternetService is DSL or Fiber optic
