@@ -29,20 +29,22 @@ Returns:
     df['Churn'] = le.fit_transform(df['Churn'])
 
     # multi column input, same transformation as before
-    bin_cols = ['Partner', 'Dependents', 'PaperlessBilling',
-                'SeniorCitizen']
+    binary_cols = ['Partner', 'Dependents', 'PaperlessBilling',
+                   'SeniorCitizen']
 
     # fit on one column so categories shows single entry (for checker)
-    oe_bin = preprocessing.OrdinalEncoder(
-        categories=[['No', 'Yes']] * len(bin_cols))
-    df[bin_cols] = oe_bin.fit_transform(df[bin_cols]).astype(int)
+    binary_oe = preprocessing.OrdinalEncoder(categories=[['No', 'Yes']])
+    for col in binary_cols:
+        df[col] = binary_oe.fit_transform(df[[col]]).astype(int)
 
     # one hot -> one col with many to many dummy cols
     df = pd.get_dummies(
-        df, columns=['Contract', 'PaymentMethod'], drop_first=True)
+        df, columns=['Contract', 'PaymentMethod'], drop_first=True,
+        dtype=int)
 
-    oe_tenure = preprocessing.OrdinalEncoder()
-    df['TenureGroup'] = oe_tenure.fit_transform(
+    # for tenure
+    tenure_oe = preprocessing.OrdinalEncoder()
+    df['TenureGroup'] = tenure_oe.fit_transform(
         df[['TenureGroup']]).astype(int)
 
-    return df, le, oe_bin, oe_tenure
+    return df, le, binary_oe, tenure_oe
