@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Write a function that encodes features
-for modeling using Scikit-learn 
+for modeling using Scikit-learn
     """
 import pandas as pd
 from sklearn import preprocessing
