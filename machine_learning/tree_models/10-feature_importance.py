@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Write a function that computes and returns the feature importances
-from a trained random forest model.
+with a trained random forest model.
     """
 import numpy as np
 
