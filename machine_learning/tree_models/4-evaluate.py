@@ -7,7 +7,7 @@ from sklearn import metrics
 
 
 def evaluate(true_labels, predicted_labels, class_names):
-    """This report should provide a 
+    """This report should provide a
     comprehensive summary of the model’s
     performance for each class, including:
     precision
