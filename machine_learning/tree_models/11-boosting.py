@@ -30,7 +30,8 @@ Returns:
     An untrained instance of the selected boosting classifier.
     """
     if name == 'adaboost':
-        return ensemble.AdaBoostClassifier(n_estimators=n_estimators,random_state=random_state)
+        return ensemble.AdaBoostClassifier(
+            n_estimators=n_estimators, random_state=random_state)
     elif name == 'gradientboosting':
         return ensemble.GradientBoostingClassifier(
             n_estimators=n_estimators, random_state=random_state)
