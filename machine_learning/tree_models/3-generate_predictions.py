@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Write a function to generate predictions
-from a trained tree-based classifier using Scikit-learn.
+with a trained tree-based classifier using Scikit-learn.
 """
 
 
