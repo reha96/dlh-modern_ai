@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Write a function that generates a detailed classification report using Scikit-learn.
+"""Write a function that generates a detailed
+classification report using Scikit-learn.
 
     """
 from sklearn import metrics
@@ -11,7 +12,7 @@ def evaluate(true_labels, predicted_labels, class_names):
     performance for each class, including:
     precision
     recall
-    F1-score 
+    F1-score
 
 Arguments:
     true_labels: Ground truth labels
