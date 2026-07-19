@@ -33,6 +33,7 @@ Returns:
         'min_samples_leaf': list(range(2, 5)),
         'min_samples_split': list(range(2, 5))
     }
+    # cross-validation: split data into k, train on k-1, test on 1
     grid_search = model_selection.GridSearchCV(
         estimator=clf,
         param_grid=param_grid,
