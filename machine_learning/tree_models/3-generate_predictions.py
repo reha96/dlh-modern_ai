@@ -3,8 +3,6 @@
 from a trained tree-based classifier using Scikit-learn.
 """
 
-from sklearn import tree
-
 
 def generate_predictions(clf, X):
     """Arguments:
