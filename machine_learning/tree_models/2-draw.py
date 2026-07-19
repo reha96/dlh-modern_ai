@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Write a function that displays the textual structure of a trained decision tree classifier using Scikit-learn.
+"""Write a function that displays the textual structure of a
+trained decision tree classifier using Scikit-learn.
     """
 
 from sklearn import tree
