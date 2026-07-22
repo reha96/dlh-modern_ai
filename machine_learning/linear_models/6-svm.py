@@ -8,7 +8,7 @@ from sklearn import svm
 def get_SVM_model(name, random_state):
     """Arguments:
 
-name: A string indicating the type of model to return. 
+name: A string indicating the type of model to return.
 Accepted values are:
 
 'linear': returns a SVM model with a linear kernel
