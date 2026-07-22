@@ -20,4 +20,3 @@ model: An untrained Lasso regression model instance.
     """
     model = linear_model.Lasso(random_state=random_state)
     return model
-    
