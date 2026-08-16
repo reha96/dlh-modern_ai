@@ -23,10 +23,17 @@ Extract for each quote block:
 
 You are not allowed to use regular expressions for this task
 
-Imports: from bs4 import BeautifulSoup and
-fetch_html = __import__('0-fetch_html').fetch_html
-
 Returns: a list of dicts, e.g.
 [{ "text": "...", "author": "...", "tags": [...] }, ...]
     """
-    pass
+    fetch_html = __import__('0-fetch_html').fetch_html
+    soup = BeautifulSoup(fetch_html, 'html.parser')
+    text = []
+    author = []
+    tags = []
+    for i in soup.find_all('text'):
+        text.append(i)
+    for i in soup.find_all('author'):
+        author.append(i)
+    for i in soup.find_all('tags'):
+        tags.append(i)
