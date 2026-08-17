@@ -27,13 +27,14 @@ Returns: a list of dicts, e.g.
 [{ "text": "...", "author": "...", "tags": [...] }, ...]
     """
     fetch_html = __import__('0-fetch_html').fetch_html
-    soup = BeautifulSoup(fetch_html, 'html.parser')
-    text = []
-    author = []
-    tags = []
-    for i in soup.find_all('text'):
-        text.append(i)
-    for i in soup.find_all('author'):
-        author.append(i)
-    for i in soup.find_all('tags'):
-        tags.append(i)
+    soup = BeautifulSoup(fetch_html(url), 'html.parser')
+    text = {}
+    author = {}
+    tags = {}
+    # span is the tag name, then find classes
+    for i in soup.find_all('span', class_='text'):
+        text.update(i)
+    for i in soup.find_all('span', class_='author'):
+        author.update(i)
+    for i in soup.find_all('span', class_='tags'):
+        tags.update(i)
