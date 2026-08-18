@@ -30,6 +30,7 @@ Returns: a list of dicts, e.g.
     soup = BeautifulSoup(fetch_html(url), 'html.parser')
 
     # find all quote blocks on the 1st page
+    # use find_all because page has many
     quotes = soup.find_all('div', class_='quote')
 
     # store one dictionary for each quote
