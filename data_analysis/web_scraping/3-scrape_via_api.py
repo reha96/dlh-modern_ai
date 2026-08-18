@@ -21,8 +21,8 @@ Returns: a list of quote dictionaries
     """
     # create page counter
     count = 1
-    # create API endpoint
-    api_url = base_url + f"api/quotes?page={count}"
+    # create API endpoint, remove trailing backslash
+    api_url = base_url.rstrip('/') + f"/api/quotes?page={count}"
 
     out = []
 
@@ -48,4 +48,6 @@ Returns: a list of quote dictionaries
 
         # build the next API endpoint
         count += 1
-        api_url = base_url + f'api/quotes?page={count}'
+        api_url = base_url.rstrip('/') + f'/api/quotes?page={count}'
+
+    return out
