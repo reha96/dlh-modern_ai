@@ -26,15 +26,33 @@ You are not allowed to use regular expressions for this task
 Returns: a list of dicts, e.g.
 [{ "text": "...", "author": "...", "tags": [...] }, ...]
     """
-    fetch_html = __import__('0-fetch_html').fetch_html
+    # fetch the page and turn the html into a searchable soup object
     soup = BeautifulSoup(fetch_html(url), 'html.parser')
-    text = {}
-    author = {}
-    tags = {}
-    # span is the tag name, then find classes
-    for i in soup.find_all('span', class_='text'):
-        text.update(i)
-    for i in soup.find_all('span', class_='author'):
-        author.update(i)
-    for i in soup.find_all('span', class_='tags'):
-        tags.update(i)
+
+    # find all quote blocks on the 1st page
+    quotes = soup.find_all('div', class_='quote')
+
+    # store one dictionary for each quote
+    out = []
+
+    # go through each quote block
+    for quote in quotes:
+        # collect the text, author, and tags from this quote
+        one_quote = {
+            # get the quote text
+            'text': quote.find('span', class_='text').get_text(strip=True),
+            # get the author's name
+            'author': quote.find('small', class_='author').get_text(
+                strip=True),
+            # get the text from each tag link
+            'tags': [
+                tag.get_text(strip=True)
+                for tag in quote.find('div', class_='tags').find_all(
+                    'a', class_='tag')
+            ]
+        }
+
+        # add this quote dictionary to the output list
+        out.append(one_quote)
+
+    return out
