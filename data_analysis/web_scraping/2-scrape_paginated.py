@@ -28,12 +28,25 @@ Returns: the full list of quote dictionaries
     current_url = base_url
     out = []
 
-    # fetch the base page and turn the html into a searchable soup object
-    soup = BeautifulSoup(fetch_html(current_url), 'html.parser')
+    while current_url:
+        # fetch the current page
+        soup = BeautifulSoup(fetch_html(current_url), 'html.parser')
 
-    # scrape current url, and extend list for avoiding list of list
-    out.extend(scrape_basic(current_url))
+        # add this page's quotes to the result list
+        out.extend(scrape_basic(current_url))
 
-    # find the next button on the current page
-    # use find for the Next button because each page has only one
-    next_page = soup.find('li', class_='next')
+        # find the Next button
+        next_page = soup.find('li', class_='next')
+
+        # stop when there is no Next button
+        if next_page is None:
+            break
+
+        # get the next page URL
+        href = next_page.find('a').get('href')
+        current_url = parse.urljoin(current_url, href)
+
+        # wait before the next request
+        time.sleep(1)
+
+    return out
