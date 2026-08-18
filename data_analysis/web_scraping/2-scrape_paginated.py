@@ -24,4 +24,16 @@ Add a delay between requests.
 
 Returns: the full list of quote dictionaries
     """
-    pass
+    # setup for multiple pages
+    current_url = base_url
+    out = []
+
+    # fetch the base page and turn the html into a searchable soup object
+    soup = BeautifulSoup(fetch_html(current_url), 'html.parser')
+
+    # scrape current url, and extend list for avoiding list of list
+    out.extend(scrape_basic(current_url))
+
+    # find the next button on the current page
+    # use find for the Next button because each page has only one
+    next_page = soup.find('li', class_='next')
