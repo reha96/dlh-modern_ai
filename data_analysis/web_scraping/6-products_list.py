@@ -20,4 +20,14 @@ Extract the title, price, description, and rating from each card.
 
 Returns: a list of product dictionaries
     """
-    pass
+    # mandatory setup
+    options = webdriver.ChromeOptions()
+    # no visible window
+    options.add_argument('--headless')
+    # required in restricted environments
+    options.add_argument('--no-sandbox')
+    options.add_argument('--window-size=1920,1080')
+    driver = webdriver.Chrome(options=options)
+
+    # load page
+    driver.get(url)
