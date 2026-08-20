@@ -61,14 +61,13 @@ Returns: a list of product dictionaries
             'description': card.find_element(By.CSS_SELECTOR,
                                              'p.description').text,
 
-            # data-rating is an attribute int() turns into number
+            # data-rating is an attribute we turn into number
             'rating': int(card.find_element(
                 By.CSS_SELECTOR,
                 '.ratings p[data-rating]'
             )).get_attribute('data-rating')
         }
 
-        # (price via .text, rating via .get_attribute('data-rating') -> int)
         out.append(one_product)
 
     return out
