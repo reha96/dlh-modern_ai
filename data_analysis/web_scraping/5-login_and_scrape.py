@@ -30,8 +30,8 @@ Returns: a list of quote dictionaries
     # convert r to text
     soup = BeautifulSoup(r.text, 'html.parser')
 
-    # find unique token with fallback
-    token = soup.find('input', {'name': 'csrf_token'}).get('value', None)
+    # find unique token with checker desire instead of .get('value')
+    token = soup.find('input', {'name': 'csrf_token'})['value']
 
     # POST back username and pwd
     post = s.post(login_url, data={'username': user,
