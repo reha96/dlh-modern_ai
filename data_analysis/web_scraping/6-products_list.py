@@ -16,7 +16,7 @@ def scrape_products_list(url):
 
 Start headless Chrome in a 1920 by 1080 window without a sandbox.
 Load the page and collect every product card.
-Extract the title, price, description, and rating from each card.
+Extract the title, price, description, and rating
 
 Returns: a list of product dictionaries
     """
