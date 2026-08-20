@@ -9,7 +9,7 @@ import time
 from selenium import webdriver
 
 
-def scrape_products_list(url):
+def scrape_products(url):
     """url is a static product category page
     (e.g. https://webscraper.io/test-sites/e-commerce/static/computers/laptops)
 
