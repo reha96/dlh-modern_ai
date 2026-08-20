@@ -70,7 +70,9 @@ Returns: a list of unique product dictionaries
         out.append({
             'title': title,
             'price': price,
-            'description': card.find_element('css selector', 'p.description').text,
-            'rating': len(card.find_elements('css selector', '.ratings .ws-icon-star')),
+            'description': card.find_element('css selector',
+                                             'p.description').text,
+            'rating': len(card.find_elements('css selector',
+                                             '.ratings .ws-icon-star')),
         })
     return out
