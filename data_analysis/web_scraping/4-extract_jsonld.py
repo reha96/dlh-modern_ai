@@ -49,5 +49,3 @@ Returns: a list of quote dictionaries
 
     # give back the collected quotes
     return out
-
-    return out
