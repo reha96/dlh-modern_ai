@@ -31,3 +31,44 @@ Returns: a list of product dictionaries
 
     # load page
     driver.get(url)
+
+    # find all card elements using By
+    # every product card has <div class="card thumbnail">...</div>
+    # selenium renames bs4's find/find_all to find_element/find_elements
+    cards = driver.find_elements(By.CSS_SELECTOR, 'div.thumbnail')
+
+    # similar to task 1
+    out = []
+
+    for card in cards:
+
+        # fill dict with title / price / description / rating
+        one_product = {
+
+            # css selector packs tag + class into one string (a.title),
+            # unlike bs4
+            # get_attribute reads a value written in the tag;
+            # no get_text in selenium
+
+            'title': card.find_element(By.CSS_SELECTOR,
+                                       'a.title').get_attribute('title'),
+
+            # .text reads visible text, bs4's get_text() equivalent
+            'price': card.find_element(By.CSS_SELECTOR,
+                                       'h4.price').text,
+
+
+            'description': card.find_element(By.CSS_SELECTOR,
+                                             'p.description').text,
+
+            # data-rating is an attribute int() turns into number
+            'rating': int(card.find_element(
+                By.CSS_SELECTOR,
+                '.ratings p[data-rating]'
+            )).get_attribute('data-rating')
+        }
+
+        # (price via .text, rating via .get_attribute('data-rating') -> int)
+        out.append(one_product)
+
+    return out
