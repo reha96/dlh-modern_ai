@@ -36,12 +36,18 @@ Returns: a list of quote dictionaries
 
         # extract
         if payload.get("@type") == "Quote":
+            # keywords may be a list or a comma-separated string
+            keywords = payload.get("keywords", [])
+            if isinstance(keywords, str):
+                keywords = [word.strip() for word in keywords.split(",")]
             out.append({
                 "text": payload.get("text"),
-                # {} is fallback for empty author (return empty dict)
+                # {} is fallback for empty author
                 "author": payload.get("author", {}).get("name"),
-                # [] is fallback for empty tags (return empty list)
-                "tags": payload.get("keywords", [])
+                "tags": keywords
             })
+
+    # give back the collected quotes
+    return out
 
     return out
