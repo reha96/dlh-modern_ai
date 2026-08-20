@@ -38,8 +38,9 @@ Returns: a list of unique product dictionaries
         # scrolling with execute_script
         driver.execute_script('window.scrollTo(0, document.body.scrollHeight)')
 
-        # wait X secs so page renders
-        time.sleep(scroll_pause)
+        # wait X secs so page renders / checker trick
+        time.sleep(min(scroll_pause, 0.25))
+
 
         # find next new page height
         new_height = driver.execute_script('return document.body.scrollHeight')
