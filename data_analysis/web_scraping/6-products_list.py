@@ -7,7 +7,6 @@
 import time
 
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 
 
 def scrape_products_list(url):
@@ -35,7 +34,7 @@ Returns: a list of product dictionaries
     # find all card elements using By
     # every product card has <div class="card thumbnail">...</div>
     # selenium renames bs4's find/find_all to find_element/find_elements
-    cards = driver.find_elements(By.CSS_SELECTOR, 'div.thumbnail')
+    cards = driver.find_elements('css selector', 'div.thumbnail')
 
     # similar to task 1
     out = []
@@ -50,22 +49,22 @@ Returns: a list of product dictionaries
             # get_attribute reads a value written in the tag;
             # no get_text in selenium
 
-            'title': card.find_element(By.CSS_SELECTOR,
+            'title': card.find_element('css selector',
                                        'a.title').get_attribute('title'),
 
             # .text reads visible text, bs4's get_text() equivalent
-            'price': card.find_element(By.CSS_SELECTOR,
+            'price': card.find_element('css selector',
                                        'h4.price').text,
 
 
-            'description': card.find_element(By.CSS_SELECTOR,
+            'description': card.find_element('css selector',
                                              'p.description').text,
 
             # data-rating is an attribute we turn into number
             'rating': int(card.find_element(
-                By.CSS_SELECTOR,
+                'css selector',
                 '.ratings p[data-rating]'
-            )).get_attribute('data-rating')
+            ).get_attribute('data-rating'))
         }
 
         out.append(one_product)
