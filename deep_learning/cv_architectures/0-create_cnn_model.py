@@ -34,9 +34,9 @@ def create_cnn_model(input_shape, filters, kernel_sizes, activations,
             kernel_size=kernel_sizes[i],
             activation=activations[i]))
         if pooling_type == 'max':
-            model.add(K.layers.MaxPooling2D())
+            model.add(K.layers.MaxPooling2D(pool_size=(2, 2)))
         else:
-            model.add(K.layers.AveragePooling2D())
+            model.add(K.layers.AveragePooling2D(pool_size=(2, 2)))
 
     # unrolls the 5×5×64 cube into 1600 numbers so Dense accepts it
     model.add(K.layers.Flatten())
@@ -46,7 +46,7 @@ def create_cnn_model(input_shape, filters, kernel_sizes, activations,
     # compiled model
     model.compile(optimizer='adam',
                   loss='sparse_categorical_crossentropy')
-    
+
     # give the pipeline its input size so params/shapes exist at return
     model.build((None,) + tuple(input_shape))
     return model
