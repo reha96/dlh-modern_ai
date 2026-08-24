@@ -27,4 +27,30 @@ def compile_and_train_cnn(model, epochs, batch_size, x_train, y_train,
     Returns:
         the trained CNN model, training history object
     """
-    pass
+    # normalize empty params
+    if optimizer_params is None:
+        optimizer_params = {}
+
+    # explicit optimizer selection
+    name = optimizer_name.lower()
+    if name == "adam":
+        optimizer = K.optimizers.Adam(**optimizer_params)
+    elif name == "sgd":
+        optimizer = K.optimizers.SGD(**optimizer_params)
+    elif name == "rmsprop":
+        optimizer = K.optimizers.RMSprop(**optimizer_params)
+
+    # select loss suitable to one-hot labels vs sparse (integer labels)
+    # val_accuracy metric required
+    model.compile(optimizer=optimizer,
+                  loss='categorical_crossentropy',
+                  metrics=['accuracy'])
+
+    # train and return history obj
+    history = model.fit(x_train, y_train,
+                        epochs=epochs,
+                        batch_size=batch_size,
+                        validation_data=(x_val, y_val),
+                        verbose=0)
+
+    return model, history
