@@ -46,4 +46,7 @@ def create_cnn_model(input_shape, filters, kernel_sizes, activations,
     # compiled model
     model.compile(optimizer='adam',
                   loss='sparse_categorical_crossentropy')
+    
+    # give the pipeline its input size so params/shapes exist at return
+    model.build((None,) + tuple(input_shape))
     return model
