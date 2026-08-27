@@ -2,3 +2,6 @@
 /.playwright-mcp
 data_analysis/web_scraping/__pycache__
 /deep_learning/cv_architectures/__pycache__
+/tf-venv
+/.venv
+/my-venv
