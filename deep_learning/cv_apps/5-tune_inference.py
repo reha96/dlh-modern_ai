@@ -107,8 +107,14 @@ def inference_tuning(data_yaml=None, model="trained.pt", conf_list=None,
     from ultralytics import YOLO
     # weights path or a ready-made model both work
     weights = model
+    model_alias = kwargs.pop("model_path", None)
+    if model_alias is None:
+        model_alias = kwargs.pop("model", None)
     if weights is None:
-        weights = kwargs.pop("model_path", "trained.pt")
+        weights = model_alias if model_alias is not None else "trained.pt"
+    elif (isinstance(weights, str) and weights == "trained.pt"
+            and model_alias is not None):
+        weights = model_alias
     if isinstance(weights, (str, Path)):
         model_obj = YOLO(str(weights))
     else:
