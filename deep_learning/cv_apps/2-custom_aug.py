@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Custom Albumentations augmentation for detection boxes."""
 
+import random
+
 import albumentations as A
 import numpy as np
 
@@ -33,7 +35,9 @@ def custom_aug(image, bboxes, labels):
     if len(boxes_in) == 4 and all(
             isinstance(v, (int, float, np.generic)) for v in boxes_in):
         boxes_in = [boxes_in]
-    # fixed seed so repeated calls give identical outputs
+    # seed 42 inside the call so repeats are identical
+    random.seed(42)
+    np.random.seed(42)
     transform = A.Compose(
         [
             A.MotionBlur(blur_limit=5, p=0.9),
@@ -49,6 +53,12 @@ def custom_aug(image, bboxes, labels):
             format="pascal_voc", label_fields=["labels"]),
         seed=42,
     )
+    # Compose(seed=...) clones one seed into each child, so every
+    # child shares a first draw (Random(42) -> 0.6394) and seed 42
+    # parks all p-gates on the same answer. Give each child its
+    # own 42-based stream instead (OneOf spreads it to its kids).
+    for index, child in enumerate(transform.transforms):
+        child.set_random_seed(42 + index)
     # image and boxes move together through one call
     out = transform(image=image, bboxes=boxes_in, labels=labels_in)
     # albumentations casts int label lists to float; restore ints
