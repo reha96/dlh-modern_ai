@@ -53,10 +53,11 @@ def custom_aug(image, bboxes, labels):
             format="pascal_voc", label_fields=["labels"]),
         seed=42,
     )
-    # Compose(seed=...) clones one seed into each child, so every
-    # child shares a first draw (Random(42) -> 0.6394) and seed 42
-    # parks all p-gates on the same answer. Give each child its
-    # own 42-based stream instead (OneOf spreads it to its kids).
+    # Compose(seed=...) clones one seed into each child, and gates
+    # read py_random, so Random(42) -> 0.6394 fails every p-gate:
+    # nothing ever applies. Global random/np seeds are ignored by
+    # Compose, so give each child its own 42-based stream (OneOf
+    # spreads its seed to its kids).
     for index, child in enumerate(transform.transforms):
         child.set_random_seed(42 + index)
     # image and boxes move together through one call
