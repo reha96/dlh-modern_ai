@@ -18,36 +18,36 @@ codes, verify, checker.
      transcripts, capture crucial bits into `<project>/RESOURCES.md`. Runs
      once per project at the first task's Prepare; see
      `RESOURCE_INGESTION.md`. Never ingest mid-task.
-2. **Explain** — use the `RESOURCE_INGESTION.md` and follow the 3-tier 
-   ladder (below). Concept first, always.
+2. **Explain** — use the `RESOURCE_INGESTION.md` and DeepTutor Research Workflow
+    plus the guided cheat sheet below.
 3. **Student codes** — the student fills the stubs step by step. Answer
    questions; never put solution code into a concept explanation unless asked.
 4. **Verify** — run the verification battery (below) before the student submits.
 5. **Check** — student runs the official checker; diagnose any failure against
    the reference forks.
 
-## The 3-Tier Explanation Ladder
+### Guided cheat sheet (start of every task)
 
-Explain every concept in this order, no skipping tiers:
+At the start of each task, output a 1-page copy-paste-friendly cheat sheet
+covering only the functions/structures that task needs: an API table with
+TF version-accurate signatures (defaults vs what to explicitly set for the
+task), one minimal per-layer usage snippet each (NOT the full task
+solution), common pitfalls (wrong namespace like `K.Add` vs
+`K.layers.Add`, missing assignment, padding, axis, seed), plus a 3-line
+usage-order reminder. Format example: the Identity Block `K` cheat sheet
+(`Conv2D`, `BatchNormalization(axis=3)`, `Activation('relu')`,
+`Add()([X, A_prev])` list-arg, `HeNormal(seed=0)`).
 
-1. **ELI5** — one analogy, limited jargon, one image (e.g. "cost is the
-   measure of how wrong the guess is"). Aim for university level introduction
-   to the topic, and aspire to give all necessary context, covering the big 
-   picture for this task.
-2. **Intuition** — plain-language mechanics: what each moving part does,
-   why each piece exists, their shapes and their meaning, the project's vocabulary.
-3. **Math** — exact formulas, why each term is there, shape alignment
-   (broadcasting, the role of m, why W is a row / b a column).
 
-Be generous with your explanations in terms of words and cover ground, consider that this
- is all I will read about the task. I have a PhD in economics, so adjust
-  to my level and give examples from econometrics when suitable.
+## DeepTutor Research Workflow
 
-## Question-Handling Contract
+The `deeptutor` MCP server is connected (`DEEPTUTOR_HOME=~/Documents/deeptutor-workspace`, deeptutor 1.6.x via pipx — canonical KB/data root; see share `dPGgbDrd` Pi-hosting plan for packaging notes). This project's DeepTutor knowledge base is **ai-book-kb** — 1181 chunks from *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, 3rd ed.* (`llamaindex`, `unsloth/bge-small-en-v1.5` 384d, local gateway `172.18.0.1:18080/18081`). Prefer this KB for grounded ML questions (only KB with content; `opencode` KB exists but is empty).
 
-- Answer "why" before "what".
-- Concept explanations stay code-free unless the student asks for code.
-- Every code review includes a check of the student's comments for accuracy.
+- Read-only tools: `list_knowledge_bases` / `get_knowledge_base_info(name=...)` (metadata, work offline). `list_sessions` is broken (missing `deeptutor.services.session.manager` module) — do not rely on it.
+- Asking: `search_knowledge_base(name="ai-book-kb", query=..., mode="hybrid"|"vector")` for fast retrieval with page citations, then `ask_deeptutor` (`message`, `knowledge_bases: ["ai-book-kb"]`, `capability: "chat"` or `deep_solve`/`deep_question`) for synthesis; reuse the returned `session_id` for follow-ups (reuse untested 2026-09-16 — `ask` timed out before issuing one).
+- Gateway dependency: both query tools need the local gateway (`:18080` chat, `:18081` embeddings). If down, `search` returns `All connection attempts failed` (hybrid fails fast, vector hangs to MCP timeout) and `ask_deeptutor` times out — verify with `curl` to the gateway and restart its container before retrying.
+- Example (deep_cnns ResNet task): `search_knowledge_base(name="ai-book-kb", query="residual connection identity block ResNet", mode="hybrid")` → `ask_deeptutor(message="Explain residual connections / identity blocks from the Hands-On ML book (cite pages)", knowledge_bases=["ai-book-kb"], capability="chat")`. Keep `knowledge_bases` explicit; if the KB does not cover the question, say so.
+- Local gateway is `http://172.18.0.1:18080/v1` + `http://172.18.0.1:18081/v1/embeddings`; no external API key needed. Never create/update/delete KBs without explicit approval.
 
 ## Conventions and Lessons
 
@@ -118,3 +118,14 @@ Append new lessons here as they are learned; the file is meant to grow.
   venvs are safe from commits.
 - 2026-08-11: this repo is public. Raw transcripts never commit; summaries
   only, own words, no verbatim text longer than one sentence.
+- 2026-09-16: cheat-sheet-first workflow — open every task with the guided
+  cheat sheet (API table + minimal snippets + pitfalls + usage order) before
+  templating, so the student codes from the sheet, not from solution text.
+- 2026-09-16: DeepTutor section updated from share `dPGgbDrd` (Pi-hosting plan:
+  deeptutor 1.6.x via pipx, canonical `DEEPTUTOR_HOME` data root, LLM gateway
+  ports) + live test: `list_knowledge_bases` / `get_knowledge_base_info`
+  work offline (ai-book-kb ready, 1181 chunks, signature `d7b149ea281bad39`);
+  `list_sessions` broken (missing session.manager module); `search`/`ask`
+  need the local gateway — down today (`curl` 000, only open-notebook/
+  surrealdb containers up), so hybrid `search` fails fast, vector `search`
+  and `ask` time out. Check gateway before relying on DeepTutor answers.
