@@ -25,6 +25,7 @@ def build_feature_extractor():
         input_shape=input_shape)
 
     # freeze base (not trainable)
+    base_m.trainable = False
     # why use K.Input: model is the input tensor + output tensor
     X = base_m(inputs, training=False)
 
