@@ -14,20 +14,24 @@ def build_feature_extractor():
     Returns:
         A Keras Model mapping input images to extracted features.
     """
-    # load from TF/Keras
+    # create inputs
     input_shape = (224, 224, 3)
+    inputs = K.Input(shape=input_shape)
 
+    # load from TF/Keras
     # include top param: fully-connected layer at the top of the network
     base_m = K.applications.MobileNetV2(
         weights="imagenet", include_top=False,
         input_shape=input_shape)
 
     # freeze base (not trainable)
-    base_m.trainable = False
+    # why use K.Input: model is the input tensor + output tensor
+    X = base_m(inputs, training=False)
 
     # add 2D avg pooling to its output
     # GlobalAveragePooling2D  reutrns  a 1D output by default vs 3D
-    # base_m.output is a read-only
-    output = K.layers.GlobalAveragePooling2D()(base_m.output)
-    model = K.Model(base_m.input, output)
+    # base_m.output is a read-only    
+    X = K.layers.GlobalAveragePooling2D()(X)
+    model = K.Model(inputs, X)
+
     return model
