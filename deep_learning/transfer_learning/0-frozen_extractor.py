@@ -30,7 +30,7 @@ def build_feature_extractor():
 
     # add 2D avg pooling to its output
     # GlobalAveragePooling2D  reutrns  a 1D output by default vs 3D
-    # base_m.output is a read-only    
+    # base_m.output is a read-only - so don't use
     X = K.layers.GlobalAveragePooling2D()(X)
     model = K.Model(inputs, X)
 
