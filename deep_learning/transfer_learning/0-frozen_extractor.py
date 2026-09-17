@@ -27,6 +27,7 @@ def build_feature_extractor():
     # freeze base (not trainable)
     base_m.trainable = False
     # why use K.Input: model is the input tensor + output tensor
+    # training false needed too!
     X = base_m(inputs, training=False)
 
     # add 2D avg pooling to its output
