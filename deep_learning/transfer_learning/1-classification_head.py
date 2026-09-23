@@ -18,4 +18,12 @@ def add_classification_head(base_model, num_classes):
     Returns:
         A new Keras Model ready for classification.
     """
-    pass
+    X = K.layers.Dense(
+        units=128,
+        activation="relu"
+    )(base_model.output)  # take the base_model output as tensor
+    X = K.layers.Dense(num_classes, activation='softmax')(X)
+
+    # base_model.input is the tensor input
+    model = K.Model(base_model.input, X)
+    return model
