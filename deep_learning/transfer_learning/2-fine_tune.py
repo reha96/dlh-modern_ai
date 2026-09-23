@@ -21,11 +21,14 @@ def fine_tune_model(model, num_unfreeze, learning_rate=1e-5):
         The recompiled Keras Model ready for fine-tuning.
     """
     # unfreeze
-    for layer in model.layers[num_unfreeze:]:
-        layer.trainable = True
+    for i in range(len(model.layers)):
+        if i <= num_unfreeze:
+            model.layers[i].trainable = False
+        else:
+            model.layers[i].trainable = True
 
-    # compile model
-    optimizer = K.optimizers.SGD(learning_rate=learning_rate)
+    # compile model with adam
+    optimizer = K.optimizers.Adam(learning_rate=learning_rate)
     model.compile(loss="sparse_categorical_crossentropy", optimizer=optimizer,
                   metrics=["accuracy"])
     return model
