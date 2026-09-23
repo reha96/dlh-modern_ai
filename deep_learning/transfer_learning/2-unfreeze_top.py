@@ -1,34 +1,28 @@
 #!/usr/bin/env python3
 """Unfreezes top layers of a transfer-learning model for fine-tuning.
 (Based on 1-classification_head.py)"""
-from tensorflow import keras as K
 
 
-def fine_tune_model(model, num_unfreeze, learning_rate=1e-5):
-    """Fine-tunes a transfer-learning model by unfreezing its top layers.
+def unfreeze_top_layers(model, n_layers):
+    """Unfreezes the last n_layers of the base model.
 
-    Unfreezes the top layers of the pretrained base inside the model
-    and recompiles the model with a low learning rate for fine-tuning.
+    Unfreezes the last n_layers of the base model inside the
+    transfer learning pipeline and leaves the rest frozen.
 
     Args:
-        model: A Keras Model built on a frozen pretrained base.
-        num_unfreeze: An integer representing the number of top base
-            layers to unfreeze.
-        learning_rate: A float representing the learning rate to use
-            for fine-tuning.
-
-    Returns:
-        The recompiled Keras Model ready for fine-tuning.
+        model: A full Keras Model with a base model as one of
+            its layers.
+        n_layers: Integer specifying how many of the last layers
+            in the base model should be unfrozen (set as trainable).
     """
     # unfreeze
     for i in range(len(model.layers)):
-        if i <= num_unfreeze:
+        if i <= n_layers:
             model.layers[i].trainable = False
         else:
             model.layers[i].trainable = True
 
-    # compile model with adam
-    optimizer = K.optimizers.Adam(learning_rate=learning_rate)
-    model.compile(loss="sparse_categorical_crossentropy", optimizer=optimizer,
-                  metrics=["accuracy"])
+    # compile model
+    model = model.compile()
+
     return model
