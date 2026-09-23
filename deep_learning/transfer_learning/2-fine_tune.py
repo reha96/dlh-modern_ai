@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Unfreezes top layers of a transfer-learning model for fine-tuning.
 (Based on 1-classification_head.py)"""
-from tensorflow import keras as K
 
 
 def fine_tune_model(model, num_unfreeze, learning_rate=1e-5):
@@ -32,4 +31,3 @@ def fine_tune_model(model, num_unfreeze, learning_rate=1e-5):
     model.compile(loss="sparse_categorical_crossentropy", optimizer=optimizer,
                   metrics=["accuracy"])
     return model
-z
