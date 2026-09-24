@@ -13,4 +13,11 @@ def build_data_augmentation():
     Returns:
         A Keras Sequential augmentation model.
     """
-    pass
+    seed = 42
+    model = K.Sequential()
+    model.add(K.layers.RandomFlip("horizontal", seed=seed))
+    model.add(K.layers.RandomRotation(0.15, seed=seed))
+    model.add(K.layers.RandomZoom(0.15, seed=seed))
+    model.add(K.layers.RandomContrast(0.1, seed=seed))
+
+    return model
