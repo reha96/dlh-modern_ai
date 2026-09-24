@@ -15,14 +15,18 @@ def unfreeze_top_layers(model, n_layers):
         n_layers: Integer specifying how many of the last layers
             in the base model should be unfrozen (set as trainable).
     """
-    # unfreeze
-    for i in range(len(model.layers)):
-        if i <= n_layers:
-            model.layers[i].trainable = False
-        else:
-            model.layers[i].trainable = True
-
-    # compile model
-    model = model.compile()
-
-    return model
+    # find the nested base model, or use the model itself
+    base = model
+    for layer in model.layers:
+        if hasattr(layer, "layers"):
+            base = layer
+            break
+    # freeze everything, then open only the last n_layers
+    total = len(base.layers)
+    cutoff = total - max(0, n_layers)
+    if cutoff < 0:
+        cutoff = 0
+    for layer in base.layers[:cutoff]:
+        layer.trainable = False
+    for layer in base.layers[cutoff:]:
+        layer.trainable = True

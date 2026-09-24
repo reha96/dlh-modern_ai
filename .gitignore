@@ -13,3 +13,5 @@ data_analysis/web_scraping/__pycache__
 /deep_learning/cv_apps/__pycache__/
 /deep_learning/transfer_learning/__pycache__
 /deep_learning/transfer_learning/caltech-101/
+/deep_learning/transfer_learning/best.weights.h5
+/deep_learning/transfer_learning/caltech101_model.h5
