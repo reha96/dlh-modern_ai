@@ -130,7 +130,7 @@ def train_transfer_model():
     model.fit(
         train_ds,
         validation_data=valid_ds,
-        epochs=20,
+        epochs=5,
         callbacks=callbacks,
     )
 
