@@ -137,3 +137,7 @@ def train_transfer_model():
     # Restore the checkpoint with the best validation accuracy.
     model.load_weights("best.weights.h5")
     model.save("caltech101_model.h5")
+
+
+if __name__ == "__main__":
+    train_transfer_model()
