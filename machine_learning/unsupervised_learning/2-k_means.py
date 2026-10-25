@@ -9,6 +9,6 @@ from sklearn import cluster
 def K_Means(X, n_clusters, random_state):
     """function K_Means
     """
-    k_means = cluster.k_means(X, n_clusters=n_clusters,
-                              random_state=random_state)
+    k_means = cluster.KMeans(n_clusters=n_clusters,
+                             random_state=random_state).fit(X)
     return (k_means)
