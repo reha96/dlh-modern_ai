@@ -2,7 +2,7 @@
 """Write a function Standardize(X) that standardizes tabular data using Scikit-learn.
 """
 from sklearn import preprocessing
-
+import numpy as np
 
 def Standardize(X):
     """
